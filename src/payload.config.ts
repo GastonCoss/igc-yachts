@@ -49,6 +49,9 @@ export default buildConfig({
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URL || '',
+      // Supabase gratuit = 15 connexions max : on en ouvre peu et on les libère vite.
+      max: process.env.VERCEL ? 2 : 4,
+      idleTimeoutMillis: 10_000,
     },
   }),
   sharp,
