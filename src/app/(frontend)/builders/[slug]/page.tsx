@@ -35,34 +35,35 @@ export default async function BuilderPage({ params }: Props) {
     depth: 1,
   })
 
-  const meta = [b.country, b.parentGroup, b.founded ? `Founded ${b.founded}` : null].filter(Boolean).join(' · ')
+  const meta = [b.country, b.parentGroup, b.founded ? `founded in ${b.founded}` : null].filter(Boolean).join(', ')
 
   return (
     <>
-      <div className="search-head">
+      <div className="page-head on-dark">
         <div className="wrap">
           <div className="crumbs">
             <Link href="/builders">Builders</Link> / {b.name}
           </div>
           <h1>{b.name}</h1>
-          {meta ? <p className="muted" style={{ marginTop: 12 }}>{meta}</p> : null}
-          {b.summary ? <p className="prose" style={{ marginTop: 16 }}>{b.summary}</p> : null}
+          {meta ? <p className="builder-meta">{meta}</p> : null}
+          {b.summary ? <p className="builder-summary">{b.summary}</p> : null}
           {b.website ? (
             <p style={{ marginTop: 16 }}>
-              <a className="link-arrow" href={b.website} target="_blank" rel="noreferrer nofollow">
-                Official website ↗
+              <a className="text-link" href={b.website} target="_blank" rel="noreferrer nofollow">
+                Official website
               </a>
             </p>
           ) : null}
+          <div className="page-head-pad" />
         </div>
       </div>
-      <div className="wrap">
+      <div className="wrap" style={{ paddingTop: 48 }}>
         <div className="results-bar">
           <span>
             <strong>{yachts.totalDocs}</strong> {yachts.totalDocs === 1 ? 'model' : 'models'}
           </span>
-          <Link className="link-arrow" href={`/yachts?builder=${b.slug}`}>
-            Filter {b.name} yachts →
+          <Link className="text-link" href={`/yachts?builder=${b.slug}`}>
+            Filter {b.name} yachts
           </Link>
         </div>
         <div className="grid">

@@ -30,6 +30,7 @@ export function Filters({ f, builders }: { f: F; builders: BuilderOpt[] }) {
   const featureGroups = Array.from(new Set(FEATURES.map((x) => x.group)))
   return (
     <form action="/yachts" className="filters" id="filters">
+      <p className="filters-title">Refine</p>
       {f.q ? <input type="hidden" name="q" value={f.q} /> : null}
       {f.sort !== 'newest' ? <input type="hidden" name="sort" value={f.sort} /> : null}
 
@@ -38,7 +39,7 @@ export function Filters({ f, builders }: { f: F; builders: BuilderOpt[] }) {
           <input className="input" name="priceMin" inputMode="numeric" placeholder="Min" defaultValue={f.priceMin ?? ''} />
           <input className="input" name="priceMax" inputMode="numeric" placeholder="Max" defaultValue={f.priceMax ?? ''} />
         </div>
-        <span className="muted small">e.g. 3000000 for €3M</span>
+        <span className="field-label">For €3M, type 3000000</span>
       </Group>
 
       <Group title="Length (m)" open>
@@ -64,7 +65,7 @@ export function Filters({ f, builders }: { f: F; builders: BuilderOpt[] }) {
       ) : null}
 
       <Group title="Accommodation" open>
-        <label className="small muted">Minimum guest cabins</label>
+        <label className="field-label">Minimum guest cabins</label>
         <select className="select" name="cabins" defaultValue={f.cabins ?? ''}>
           <option value="">Any</option>
           {[1, 2, 3, 4, 5, 6].map((n) => (
@@ -73,7 +74,7 @@ export function Filters({ f, builders }: { f: F; builders: BuilderOpt[] }) {
             </option>
           ))}
         </select>
-        <label className="small muted">Minimum guest berths</label>
+        <label className="field-label">Minimum guest berths</label>
         <select className="select" name="guests" defaultValue={f.guests ?? ''}>
           <option value="">Any</option>
           {[2, 4, 6, 8, 10, 12].map((n) => (
@@ -85,7 +86,7 @@ export function Filters({ f, builders }: { f: F; builders: BuilderOpt[] }) {
       </Group>
 
       <Group title="Performance" open={f.speed !== null}>
-        <label className="small muted">Top speed at least (knots)</label>
+        <label className="field-label">Top speed at least (knots)</label>
         <select className="select" name="speed" defaultValue={f.speed ?? ''}>
           <option value="">Any</option>
           {[10, 15, 20, 25, 30, 35, 40, 45, 50].map((n) => (
@@ -97,13 +98,13 @@ export function Filters({ f, builders }: { f: F; builders: BuilderOpt[] }) {
       </Group>
 
       <Group title="Propulsion" open={f.fuel.length + f.drive.length > 0 || f.blades !== null}>
-        <span className="small muted">Fuel</span>
+        <span className="field-label">Fuel</span>
         <Checks name="fuel" options={FUELS} selected={f.fuel} />
-        <span className="small muted" style={{ marginTop: 8 }}>
+        <span className="field-label" style={{ marginTop: 10 }}>
           Drive
         </span>
         <Checks name="drive" options={DRIVES} selected={f.drive} />
-        <label className="small muted" style={{ marginTop: 8 }}>
+        <label className="field-label" style={{ marginTop: 10 }}>
           Propeller blades
         </label>
         <select className="select" name="blades" defaultValue={f.blades ?? ''}>
@@ -117,9 +118,9 @@ export function Filters({ f, builders }: { f: F; builders: BuilderOpt[] }) {
       </Group>
 
       <Group title="Layout" open={f.galley.length + f.master.length > 0}>
-        <span className="small muted">Galley</span>
+        <span className="field-label">Galley</span>
         <Checks name="galley" options={GALLEY_POSITIONS} selected={f.galley} />
-        <span className="small muted" style={{ marginTop: 8 }}>
+        <span className="field-label" style={{ marginTop: 10 }}>
           Owner&apos;s cabin
         </span>
         <Checks name="master" options={MASTER_POSITIONS} selected={f.master} />
@@ -144,7 +145,7 @@ export function Filters({ f, builders }: { f: F; builders: BuilderOpt[] }) {
           Show yachts
         </button>
         <a className="btn btn-ghost" href="/yachts">
-          Reset all filters
+          Reset filters
         </a>
       </div>
     </form>

@@ -49,23 +49,21 @@ export default async function YachtsPage({ searchParams }: { searchParams: Promi
 
   return (
     <>
-      <div className="search-head">
+      <div className="page-head on-dark">
         <div className="wrap">
-          <span className="eyebrow">Yacht database</span>
           <h1>Explore yachts</h1>
-          <form action="/yachts" className="hero-search" style={{ marginTop: 24 }}>
-            <input className="input" type="search" name="q" defaultValue={f.q} placeholder="Search a builder or model…" />
-            <button className="btn" type="submit">
-              Search
-            </button>
+          <form action="/yachts" className="hero-search" role="search">
+            <input type="search" name="q" defaultValue={f.q} placeholder="Search a builder or a model" aria-label="Search a builder or a model" />
+            <button type="submit">Search</button>
           </form>
+          <div className="page-head-pad" />
         </div>
       </div>
 
       <div className="wrap search-layout">
         <div>
           <input type="checkbox" id="filters-toggle" className="filters-toggle" hidden />
-          <label htmlFor="filters-toggle" className="btn btn-ghost mobile-filters-toggle" style={{ marginBottom: 16 }}>
+          <label htmlFor="filters-toggle" className="btn btn-ghost mobile-filters-toggle">
             Filters{activeCount ? ` (${activeCount})` : ''}
           </label>
           <Filters f={f} builders={builderOpts} />
@@ -87,7 +85,7 @@ export default async function YachtsPage({ searchParams }: { searchParams: Promi
                 </span>
               ))}
               <Link href="/yachts" className="chip">
-                Clear ×
+                Clear all
               </Link>
             </div>
           ) : null}
@@ -109,7 +107,7 @@ export default async function YachtsPage({ searchParams }: { searchParams: Promi
             <nav className="pagination" aria-label="Pagination">
               {result.hasPrevPage && result.prevPage ? (
                 <Link className="btn btn-ghost" href={hrefWith(sp, { page: String(result.prevPage) })}>
-                  ← Previous
+                  Previous
                 </Link>
               ) : null}
               <span className="btn btn-ghost" aria-current="page">
@@ -117,7 +115,7 @@ export default async function YachtsPage({ searchParams }: { searchParams: Promi
               </span>
               {result.hasNextPage && result.nextPage ? (
                 <Link className="btn btn-ghost" href={hrefWith(sp, { page: String(result.nextPage) })}>
-                  Next →
+                  Next
                 </Link>
               ) : null}
             </nav>

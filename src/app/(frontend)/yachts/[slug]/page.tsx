@@ -131,8 +131,8 @@ export default async function YachtPage({ params }: Props) {
 
   return (
     <article>
-      <div className="y-hero wrap">
-        <div className="crumbs">
+      <div className="y-head wrap">
+        <div className="crumbs on-light">
           <Link href="/yachts">Yachts</Link>
           {builder?.slug ? (
             <>
@@ -146,55 +146,68 @@ export default async function YachtPage({ params }: Props) {
 
         <div className="y-title">
           <div>
-            <div className="builder-line">
-              {[builder?.name, labelOf(YACHT_TYPES, y.type), y.range].filter(Boolean).join(' · ')}
+            <div className="y-kicker">
+              {[labelOf(YACHT_TYPES, y.type), y.range].filter(Boolean).join(', ')}
+              {y.yearLaunched ? `, since ${y.yearLaunched}` : ''}
             </div>
             <h1>{y.title}</h1>
-            {y.tagline ? <p className="tagline">{y.tagline}</p> : null}
+            {y.tagline ? <p className="y-tagline">{y.tagline}</p> : null}
           </div>
           <div className="y-price">
-            <span className="eyebrow">Base price</span>
+            <span>Base price</span>
             <strong>{fmtPrice(y)}</strong>
             {y.priceFromEur ? (
-              <span className="muted small">
-                {y.priceVat === 'inc-vat' ? 'inc. VAT' : 'ex. VAT'}
-                {y.priceYear ? ` · ${y.priceYear}` : ''}
+              <span>
+                {y.priceVat === 'inc-vat' ? 'VAT included' : 'Excluding VAT'}
+                {y.priceYear ? `, ${y.priceYear}` : ''}
               </span>
             ) : null}
           </div>
         </div>
+      </div>
 
-        <div className="y-image">
-          {hero ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={hero} alt={(isMedia(y.heroImage) && y.heroImage.alt) || y.title || ''} />
-          ) : (
-            <div className="placeholder">{y.title}</div>
-          )}
-        </div>
-        <div className="keyfacts">
-          <div>
-            <span className="eyebrow">Length</span>
-            <strong>{fmtM(y.loaM) ?? '—'}</strong>
+      <div className="y-image">
+        {hero ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={hero} alt={(isMedia(y.heroImage) && y.heroImage.alt) || y.title || ''} />
+        ) : (
+          <div className="placeholder">{y.title}</div>
+        )}
+      </div>
+
+      <div className="keyfacts on-dark">
+        <div className="wrap">
+          <div className="fact">
+            <span>Length</span>
+            <strong>
+              {y.loaM ? y.loaM.toLocaleString('en-GB', { maximumFractionDigits: 2 }) : '—'}
+              {y.loaM ? <small>m</small> : null}
+            </strong>
           </div>
-          <div>
-            <span className="eyebrow">Beam</span>
-            <strong>{fmtM(y.beamM) ?? '—'}</strong>
+          <div className="fact">
+            <span>Beam</span>
+            <strong>
+              {y.beamM ? y.beamM.toLocaleString('en-GB', { maximumFractionDigits: 2 }) : '—'}
+              {y.beamM ? <small>m</small> : null}
+            </strong>
           </div>
-          <div>
-            <span className="eyebrow">Cabins</span>
+          <div className="fact">
+            <span>Guest cabins</span>
             <strong>{cabinsRange(y) ?? '—'}</strong>
           </div>
-          <div>
-            <span className="eyebrow">Guests</span>
+          <div className="fact">
+            <span>Guests</span>
             <strong>{guestsRange(y) ?? '—'}</strong>
           </div>
-          <div>
-            <span className="eyebrow">Top speed</span>
-            <strong>{speed ? `${speed} kn` : '—'}</strong>
+          <div className="fact">
+            <span>Top speed</span>
+            <strong>
+              {speed ?? '—'}
+              {speed ? <small>kn</small> : null}
+            </strong>
           </div>
-          <div>
-            <span className="eyebrow">Fuel</span>
+          <div className="fact">
+            <span>Fuel</span>
             <strong>{std?.fuel ? labelOf(FUELS, std.fuel) : '—'}</strong>
           </div>
         </div>
@@ -243,9 +256,9 @@ export default async function YachtPage({ params }: Props) {
           <div className="spec-groups">
             <SpecList
               rows={[
-                ['Length overall', [fmtM(y.loaM), fmtFt(y.loaM)].filter(Boolean).join(' · ') || null],
+                ['Length overall', [fmtM(y.loaM), fmtFt(y.loaM)].filter(Boolean).join(' / ') || null],
                 ['Hull length', fmtM(y.hullLengthM)],
-                ['Beam', [fmtM(y.beamM), fmtFt(y.beamM)].filter(Boolean).join(' · ') || null],
+                ['Beam', [fmtM(y.beamM), fmtFt(y.beamM)].filter(Boolean).join(' / ') || null],
                 ['Draft', fmtM(y.draftM)],
                 ['Air draft', fmtM(y.airDraftM)],
                 ['Light displacement', fmtN(y.displacementLightT, 't', 1)],
@@ -292,7 +305,7 @@ export default async function YachtPage({ params }: Props) {
                       <td>
                         {e.label ? <div className="muted small">{e.label}</div> : null}
                         {`${e.engineCount ?? 1} × ${[e.engineBrand, e.engineModel].filter(Boolean).join(' ') || '—'}`}
-                        {e.isStandard ? <span className="std">Std</span> : null}
+                        {e.isStandard ? <span className="std">Standard</span> : null}
                       </td>
                       <td>
                         {e.powerHpEach
@@ -334,7 +347,7 @@ export default async function YachtPage({ params }: Props) {
                         <tr key={l.id ?? i}>
                           <td>
                             {l.label || `Layout ${i + 1}`}
-                            {l.isStandard ? <span className="std">Std</span> : null}
+                            {l.isStandard ? <span className="std">Standard</span> : null}
                           </td>
                           <td>{l.cabins ?? '—'}</td>
                           <td>{l.guests ?? '—'}</td>
@@ -420,7 +433,7 @@ export default async function YachtPage({ params }: Props) {
           <div className="sources">
             <p>
               Data reliability: <strong>{labelOf(CONFIDENCE, y.dataConfidence ?? 'manufacturer')}</strong>
-              {y.updatedAt ? ` · Last updated ${new Date(y.updatedAt).toLocaleDateString('en-GB')}` : ''}
+              {y.updatedAt ? `. Last updated ${new Date(y.updatedAt).toLocaleDateString('en-GB')}.` : ''}
             </p>
             {y.sources?.length ? (
               <ul>
@@ -453,8 +466,8 @@ export default async function YachtPage({ params }: Props) {
             <div className="section-head">
               <h2>More from {builder?.name}</h2>
               {builder?.slug ? (
-                <Link href={`/builders/${builder.slug}`} className="link-arrow">
-                  All {builder.name} yachts →
+                <Link href={`/builders/${builder.slug}`} className="text-link">
+                  All {builder.name} yachts
                 </Link>
               ) : null}
             </div>

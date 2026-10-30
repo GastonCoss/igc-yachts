@@ -1,13 +1,16 @@
 import Link from 'next/link'
 import { YACHT_TYPES, labelOf } from '@/lib/options'
-import { builderName, cabinsRange, fmtM, fmtPrice, mediaUrl, topSpeed } from '@/lib/format'
+import { builderName, cabinsRange, fmtPrice, mediaUrl, topSpeed } from '@/lib/format'
 import type { YachtDoc } from '@/lib/types'
+
+const nf = new Intl.NumberFormat('en-GB', { maximumFractionDigits: 1 })
 
 export function YachtCard({ yacht }: { yacht: YachtDoc }) {
   const img = mediaUrl(yacht.heroImage, 'card')
   const speed = topSpeed(yacht)
   const cabins = cabinsRange(yacht)
   const builder = builderName(yacht)
+  const kicker = [builder, labelOf(YACHT_TYPES, yacht.type)].filter(Boolean).join(', ')
   return (
     <Link href={`/yachts/${yacht.slug}`} className="card">
       <div className="card-media">
@@ -19,19 +22,18 @@ export function YachtCard({ yacht }: { yacht: YachtDoc }) {
         )}
       </div>
       <div className="card-body">
-        <span className="tag">{labelOf(YACHT_TYPES, yacht.type)}</span>
+        {kicker ? <span className="card-kicker">{kicker}</span> : null}
         <h3>{yacht.title}</h3>
-        {builder && yacht.yearLaunched ? (
-          <span className="muted small">
-            {builder} · since {yacht.yearLaunched}
-          </span>
-        ) : null}
-        <div className="card-facts">
-          {fmtM(yacht.loaM) && <span>{fmtM(yacht.loaM)}</span>}
-          {cabins && <span>{cabins} cabins</span>}
-          {speed && <span>{speed} kn</span>}
-          <span className="card-price">{fmtPrice(yacht)}</span>
-        </div>
+        <dl className="card-specs">
+          <dt>Length</dt>
+          <dd>{yacht.loaM ? `${nf.format(yacht.loaM)} m` : '—'}</dd>
+          <dt>Cabins</dt>
+          <dd>{cabins ?? '—'}</dd>
+          <dt>Top speed</dt>
+          <dd>{speed ? `${speed} kn` : '—'}</dd>
+          <dt className="price">From</dt>
+          <dd className="price">{fmtPrice(yacht)}</dd>
+        </dl>
       </div>
     </Link>
   )

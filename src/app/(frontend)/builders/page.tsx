@@ -20,13 +20,13 @@ export default async function BuildersPage() {
 
   return (
     <>
-      <div className="search-head">
+      <div className="page-head on-dark">
         <div className="wrap">
-          <span className="eyebrow">Shipyards</span>
           <h1>Builders</h1>
+          <div className="page-head-pad" />
         </div>
       </div>
-      <div className="wrap">
+      <div className="wrap" style={{ paddingTop: 32 }}>
         {builders.docs.length ? (
           <div className="builder-list">
             {builders.docs.map((b, i) => (
