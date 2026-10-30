@@ -113,23 +113,29 @@ h3 {
 
 .logo {
   display: inline-flex;
-  align-items: baseline;
-  gap: 12px;
-  font-weight: 300;
-  font-size: 22px;
-  letter-spacing: 0.32em;
-}
-
-.logo span {
-  font-weight: 200;
-  font-size: 13px;
-  letter-spacing: 0.42em;
-  opacity: 0.8;
+  align-items: center;
+  gap: 18px;
 }
 
 .logo img {
-  height: 40px;
+  height: 30px;
   width: auto;
+}
+
+.logo-word {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  font-weight: 300;
+  font-size: 19px;
+  letter-spacing: 0.32em;
+}
+
+.logo-word span {
+  font-weight: 200;
+  font-size: 12px;
+  letter-spacing: 0.42em;
+  opacity: 0.8;
 }
 
 .nav {
@@ -181,6 +187,10 @@ h3 {
 
 .footer-top .logo {
   color: var(--white);
+}
+
+.footer-top .logo img {
+  height: 40px;
 }
 
 .footer-tagline {
@@ -1155,13 +1165,11 @@ table.specs td {
     height: 64px;
   }
 
-  .logo {
-    font-size: 18px;
-    letter-spacing: 0.24em;
-    gap: 8px;
+  .logo img {
+    height: 22px;
   }
 
-  .logo span {
+  .site-header .logo-word {
     display: none;
   }
 

@@ -22,7 +22,11 @@ export const metadata: Metadata = {
 function Logo() {
   return (
     <Link href="/" className="logo" aria-label="IGC Yachts home">
-      IGC <span>YACHTS</span>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/logo-igc-white.png" alt="" width={1014} height={194} />
+      <span className="logo-word">
+        IGC <span>YACHTS</span>
+      </span>
     </Link>
   )
 }
